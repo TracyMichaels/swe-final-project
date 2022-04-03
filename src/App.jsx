@@ -19,8 +19,8 @@ function App() {
       q: query,
       type: 'video',
     };
-    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}& maxResults=1 & key=${params.key}`, {
-      // './searchreturn.json', { // for local testing to save api calls (files located in public folder)
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
+      // fetch('./searchreturn.json', { // for local testing to save api calls (files located in public folder)
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ function App() {
     const params = {
       part: 'snippet',
       key: API_KEY,
-      numResults: 9,
+      numResults: 20,
       videoId: initalId.id,
       type: 'video',
     };
@@ -71,12 +71,16 @@ function App() {
     setEnterFlag(true);
   };
 
-  // just prints the keys for now
+  const updateFieldChanged = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  // just prints the video ids and titles for now
   // TODO: display videos
   return (
     <div className="App">
       <form>
-        <input type="text" placeholder="Search" onChange={() => setInputValue()} />
+        <input type="text" placeholder="Search" onChange={updateFieldChanged} />
         <button type="button" onClick={onClick}>Search</button>
         <div>
           videoIds:
