@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 # pylint: disable=no-member
 """This is the main driver for the app, it has the database models and the routes"""
 
+=======
+>>>>>>> 735ecd8cf22a28e984f5b73a85e85633d05a4560
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -11,7 +14,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 load_dotenv(find_dotenv())
 
 app = Flask(__name__)
+<<<<<<< HEAD
 database = os.getenv("database")
+=======
+database = os.getenv('database')
+>>>>>>> 735ecd8cf22a28e984f5b73a85e85633d05a4560
 app.config["SQLALCHEMY_DATABASE_URI"] = database
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = b"Nothing in here"
@@ -19,6 +26,7 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model, UserMixin):
+<<<<<<< HEAD
     """This is the database table for the User"""
 
     id = db.Column(db.Integer, primary_key=True)
@@ -55,5 +63,31 @@ class Reviews(db.Model):
         """Returns the comment entered"""
         return self.review
 
+=======
+	id = db.Column(db.Integer, primary_key=True)
+	user_name = db.Column(db.String(80), unique=True, nullable=False)
+	password = db.Column(db.String(350), nullable=False)
+
+	def __repr__(self):
+	        return f"<{self.id}:{self.first_name}>"
+
+    	def hash_pwd(self, passw):
+                self.password = generate_password_hash(passw)
+
+    	def check_password(self, passw):
+        	return check_password_hash(self.password, passw)
+
+class Reviews(db.Model):
+	id = db.Column(db.Integer, primary_key=True, nullable=False)
+	video_title = db.Column(db.String(50), nullable=False)
+	user_id = db.Column(db.Integer, nullable=False)
+	review = db.Column(db.String(280), nullable=False)
+
+	def __repr__(self):
+        	return f"<{self.movie_id}:{self.user_id}>"
+	
+	def comment(self):
+        	return self.review
+>>>>>>> 735ecd8cf22a28e984f5b73a85e85633d05a4560
 
 db.create_all()
