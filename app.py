@@ -1,4 +1,5 @@
 # pylint: disable=no-member
+'''Disabled linting for the no-member error as well'''
 """This is the main driver for the app, it has the database models and the routes"""
 import os
 from flask import Flask
