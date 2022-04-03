@@ -10,6 +10,30 @@ function App() {
   const [query, setQuery] = useState('');
   const [enterFlag, setEnterFlag] = useState(false);
 
+  // get initial video id based on query
+  useEffect(() => {
+    if (!enterFlag) return;
+    const params = {
+      part: 'snippet',
+      key: API_KEY,
+      q: query,
+      type: 'video',
+    };
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}& maxResults=1 & key=${params.key}`, {
+      // './searchreturn.json', { // for local testing to save api calls (files located in public folder)
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }).then((response) => response.json()).then((data) => {
+      setInitalId({
+        id: data.items[0].id.videoId,
+        title: data.items[0].snippet.title,
+      });
+    });
+  }, [query]);
+
   // just prints the keys for now
   // TODO: display videos
   return (
