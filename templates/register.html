@@ -15,10 +15,10 @@
                   <h1 class="text-center text-white" >Register</h1>
                   <form method="POST" action="/register">
                      <div class="form-outline mb-4">
-                        <input type="text" class="form-control form-control-lg" placeholder="Username" required />
+                        <input class="form-control form-control-lg" type="text" name="username" placeholder="Username" required />
                      </div>
                      <div class="form-outline mb-4">
-                        <input type="password" class="form-control form-control-lg" placeholder ="Password" required />
+                        <input class="form-control form-control-lg" type="password" name="password" placeholder ="Password" required />
                      </div>
                      <div class="text-center mb-4">
                         <a href="{{url_for('login')}}">Already't have an account? Login</a>
