@@ -66,6 +66,10 @@ function App() {
     setEnterFlag(false);
   }, [initalId]);
 
+  const onClick = () => {
+    setQuery(inputValue);
+    setEnterFlag(true);
+  };
 
   // just prints the keys for now
   // TODO: display videos
