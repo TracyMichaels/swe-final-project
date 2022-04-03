@@ -13,7 +13,7 @@ app = Flask(__name__)
 database = os.getenv("database")
 app.config["SQLALCHEMY_DATABASE_URI"] = database
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = b"Nothing in here"
+app.secret_key = b"Nothing in here, this is to protect from de-frauding"
 db = SQLAlchemy(app)
 
 
@@ -48,7 +48,7 @@ class Reviews(db.Model):
         """Represents the video commented and the user id"""
         return f"<{self.video_id}:{self.user_id}>"
 
-    def comment(self):
+    def review(self):
         """Returns the comment entered"""
         return self.review
 
