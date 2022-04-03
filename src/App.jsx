@@ -20,7 +20,8 @@ function App() {
       type: 'video',
     };
     fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
-      // fetch('./searchreturn.json', { // for local testing to save api calls (files located in public folder)
+      // for local testing to save api calls (files located in public folder)
+      // fetch('./searchreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +46,8 @@ function App() {
       type: 'video',
     };
     fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
-      // fetch('./relatedreturn.json', { // for local testing to save api calls (files located in public folder)
+      // for local testing to save api calls (files located in public folder)
+      // fetch('./relatedreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ function App() {
     }).then((response) => response.json()).then((data) => {
       const newIds = [initalId];
       data.items.forEach((item) => {
-        if (item.hasOwnProperty('snippet')) {
+        if (item.hasOwnProperty.call(item, 'snippet')) {
           newIds.push({
             id: item.id.videoId,
             title: item.snippet.title,
