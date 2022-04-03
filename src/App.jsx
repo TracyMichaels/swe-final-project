@@ -34,6 +34,39 @@ function App() {
     });
   }, [query]);
 
+  // get list of related videos based on initial video id
+  useEffect(() => {
+    if (!enterFlag) return;
+    const params = {
+      part: 'snippet',
+      key: API_KEY,
+      numResults: 9,
+      videoId: initalId.id,
+      type: 'video',
+    };
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
+      // fetch('./relatedreturn.json', { // for local testing to save api calls (files located in public folder)
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }).then((response) => response.json()).then((data) => {
+      const newIds = [initalId];
+      data.items.forEach((item) => {
+        if (item.hasOwnProperty('snippet')) {
+          newIds.push({
+            id: item.id.videoId,
+            title: item.snippet.title,
+          });
+        }
+      });
+      setVideoIds(newIds);
+    });
+    setEnterFlag(false);
+  }, [initalId]);
+
+
   // just prints the keys for now
   // TODO: display videos
   return (
