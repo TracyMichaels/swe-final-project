@@ -13,13 +13,3 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = b"Nothing in here, this is to protect from de-frauding"
 
 db = SQLAlchemy(app)
-
-
-app.route("/")
-def index():
-    return flask.render_template(index.html)
-
-
-
-app.run()
-
