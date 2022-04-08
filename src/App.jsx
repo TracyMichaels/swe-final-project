@@ -21,10 +21,10 @@ function App() {
       q: query,
       type: 'video',
     };
-    // fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
     // for local testing to save api calls (files located in public folder)
-    fetch('./searchreturn.json', {
-      // method: 'GET',
+    // fetch('./searchreturn.json', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -48,10 +48,10 @@ function App() {
       type: 'video',
     };
 
-    // fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
     // for local testing to save api calls (files located in public folder)
-    fetch('./relatedreturn.json', {
-      // method: 'GET',
+    // fetch('./relatedreturn.json', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -154,7 +154,10 @@ function App() {
               />
               <button type="button" onClick={playNext}>Skip</button>
             </div>
-          )
+          )}
+      </div>
+      <div>
+        {videoIds.length > 0
           && (
             <div>
               <textarea rows="10" cols="50" placeholder="Leave a Comment" onChange={updateFieldChanged} />
