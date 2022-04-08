@@ -20,7 +20,6 @@ class User(db.Model, UserMixin):
         self.password = generate_password_hash(password)
 
     def verify_password(self,pwd):
-        print(self.password,pwd)
         return check_password_hash(self.password, pwd)
 
 
@@ -42,4 +41,4 @@ class Reviews(db.Model):
         return self.review
 
 
-db.create_all()db.create_all()
+db.create_all()
