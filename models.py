@@ -1,12 +1,13 @@
 # pylint: disable=no-member
-'''Disabled linting for the no-member error as well'''
 """This is the main driver for the app, it has the database models and the routes"""
-from app import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import db
+
 
 class User(db.Model, UserMixin):
     """This is the database table for the User"""
+
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(350), nullable=False)
@@ -26,6 +27,7 @@ class User(db.Model, UserMixin):
 
 class Reviews(db.Model):
     """This is the database table for the reviews that are left on each video/playlist"""
+
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     video_title = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
@@ -36,8 +38,9 @@ class Reviews(db.Model):
         """Represents the video commented and the user id"""
         return f"<{self.video_id}:{self.user_id}>"
 
-    def review(self):
+    def reviews(self):
         """Returns the comment entered"""
         return self.review
+
 
 db.create_all()
