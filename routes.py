@@ -2,7 +2,7 @@
 # This is a temporary diabling message, we will eventually use all of these imports
 """These are the routes of the app, which help us navigate through it with different endpoints"""
 import flask
-from flask_login import login_user, LoginManager
+from flask_login import LoginManager
 from flask import (
     Blueprint,
     render_template,
@@ -24,6 +24,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
+    """This function will load user"""
     return User.query.get(user_id)
 
 @app.route("/")
@@ -34,14 +35,16 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    """Lets the user log in to their account"""
+    """Lets the user log into their account"""
     return redirect(url_for("home"))
 
 @app.route("/login", methods=["POST"])
 def login_form():
+    """This form checks if user is already a member"""
     user = flask.request.form.get("username")
     password = flask.request.form.get("password")
     user_query = User.query.filter_by(user_name=user).first()
+
     if user_query and user_query.verify_password(password):
         login_user(user_query)
         return flask.render_template("home.html")
@@ -55,6 +58,7 @@ def register():
 
 @app.route('/register', methods=["POST"])
 def register_form():
+    """Signs up new user"""
     user = flask.request.form.get("username")
     pwd = flask.request.form.get("password")
     new_user = User(user_name=user,password=pwd)
@@ -75,4 +79,3 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
