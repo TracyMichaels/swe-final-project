@@ -1,6 +1,6 @@
+# pylint: disable=unused-import
+# This is a temporary diabling message, we will eventually use all of these imports
 """These are the routes of the app, which help us navigate through it with different endpoints"""
-from app import db
-from app import app
 from flask import (
     Blueprint,
     render_template,
@@ -10,11 +10,12 @@ from flask import (
     url_for,
     jsonify,
     session,
+    request,
 )
 from flask_login import login_user, login_required, current_user, logout_user
-from flask import request
-from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import db, app
+from models import User
 
 
 @app.route("/")
