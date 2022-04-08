@@ -7,22 +7,21 @@ from app import db
 
 class User(db.Model, UserMixin):
     """This is the database table for the User"""
-
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(350), nullable=False)
 
     def __repr__(self):
         """Represents the user currently logged in"""
-        return f"<{self.id}:{self.first_name}>"
+        return f"<{self.id}:{self.user_name}>"
 
-    def hash_pwd(self, passw):
-        """Hashes to encrypt the password"""
-        self.password = generate_password_hash(passw)
+    def __init__(self, password,user_name):
+        self.user_name = user_name
+        self.password = generate_password_hash(password)
 
-    def check_password(self, passw):
-        """Checks if the entered password is right"""
-        return check_password_hash(self.password, passw)
+    def verify_password(self,pwd):
+        print(self.password,pwd)
+        return check_password_hash(self.password, pwd)
 
 
 class Reviews(db.Model):
@@ -43,4 +42,4 @@ class Reviews(db.Model):
         return self.review
 
 
-db.create_all()
+db.create_all()db.create_all()
