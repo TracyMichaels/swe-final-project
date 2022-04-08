@@ -9,6 +9,7 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [query, setQuery] = useState('');
   const [enterFlag, setEnterFlag] = useState(false);
+  const [videoListIndex, setVideoListIndex] = useState(0);
 
   // get initial video id based on query
   useEffect(() => {
@@ -76,6 +77,14 @@ function App() {
   const updateFieldChanged = (e) => {
     setInputValue(e.target.value);
   };
+  const playNext = () => {
+    if (videoListIndex === videoIds.length - 1) {
+      alert('end of playlist, starting over');
+      setVideoListIndex(0);
+    } else {
+      setVideoListIndex(videoListIndex + 1);
+    }
+  };
 
   // just prints the video ids and titles for now
   // TODO: display videos
@@ -85,19 +94,30 @@ function App() {
         <input type="text" placeholder="Search" onChange={updateFieldChanged} />
         <button type="button" onClick={onClick}>Search</button>
         <div>
-          videoIds:
-          {videoIds.map((item) => (
-            <div key={item.id}>
-              Key:
-              {' '}
-              {item.id}
-              <br />
-              Title:
-              {' '}
-              {item.title}
-              <br />
-            </div>
-          ))}
+          {videoIds.length > 0
+            && (
+              <div>
+                <h3>{videoIds[videoListIndex].title}</h3>
+              </div>
+            )}
+          {videoIds.length > 0
+            && (
+              <iframe
+                title="video"
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${videoIds[videoListIndex].id}?autoplay=1`}
+                frameBorder="0"
+                allow="accelerometer; autoplay;"
+                allowFullScreen
+              />
+            )}
+          {videoIds.length > 0
+            && (
+              <div>
+                <button type="button" onClick={playNext}>Skip</button>
+              </div>
+            )}
         </div>
       </form>
     </div>
