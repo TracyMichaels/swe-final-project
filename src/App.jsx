@@ -10,6 +10,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [enterFlag, setEnterFlag] = useState(false);
   const [videoListIndex, setVideoListIndex] = useState(0);
+  const [videoComments, setVideoComments] = useState([]);
 
   // get initial video id based on query
   useEffect(() => {
@@ -46,6 +47,7 @@ function App() {
       videoId: initalId.id,
       type: 'video',
     };
+
     fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
       // for local testing to save api calls (files located in public folder)
       // fetch('./relatedreturn.json', {
@@ -69,7 +71,23 @@ function App() {
     setEnterFlag(false);
   }, [initalId]);
 
-  const onClick = () => {
+  // WARNING: DEPENDING ON HOW THE BACK END IS SET UP,
+  // THE ENDPOINT NAMES AND FORMATTING AND WILL NEED TO BE CHANGED
+  // get comments for currently playing video
+  useEffect(() => {
+    // TODO: remove try catch when backend is set up
+    try {
+      fetch(`/getComments?id=${videoIds[videoListIndex].id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setVideoComments(data);
+        });
+    } catch (err) {
+      console.log('will be fixed when backend is set up');
+    }
+  }, [videoListIndex]);
+
+  const onSearchClick = () => {
     setQuery(inputValue);
     setEnterFlag(true);
   };
@@ -77,6 +95,7 @@ function App() {
   const updateFieldChanged = (e) => {
     setInputValue(e.target.value);
   };
+
   const playNext = () => {
     if (videoListIndex === videoIds.length - 1) {
       alert('end of playlist, starting over');
@@ -86,22 +105,44 @@ function App() {
     }
   };
 
-  // just prints the video ids and titles for now
-  // TODO: display videos
+  // WARNING: DEPENDING ON HOW THE BACK END IS SET UP,
+  // THE ENDPOINT NAMES AND FORMATTING AND WILL NEED TO BE CHANGED
+  const addComment = () => {
+    const newCommentObj = {
+      videoId: videoIds[videoListIndex].id,
+      comment: inputValue,
+    };
+    // TODO: remove try catch when backend is set up
+    try {
+      fetch('/addComment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(newCommentObj),
+      }).then((response) => response.json())
+        .then((data) => {
+          setVideoComments(data);
+        });
+    } catch (err) {
+      console.log(`sending to back end: ${newCommentObj}`);
+      console.log('will be fixed when backend is set up');
+    }
+  };
+
+  // TODO: style
   return (
     <div className="App">
       <form>
         <input type="text" placeholder="Search" onChange={updateFieldChanged} />
-        <button type="button" onClick={onClick}>Search</button>
-        <div>
-          {videoIds.length > 0
-            && (
-              <div>
-                <h3>{videoIds[videoListIndex].title}</h3>
-              </div>
-            )}
-          {videoIds.length > 0
-            && (
+        <button type="button" onClick={onSearchClick}>Search</button>
+      </form>
+      <div>
+        {videoIds.length > 0
+          && (
+            <div>
+              <h3>{videoIds[videoListIndex].title}</h3>
               <iframe
                 title="video"
                 width="560"
@@ -111,15 +152,36 @@ function App() {
                 allow="accelerometer; autoplay;"
                 allowFullScreen
               />
-            )}
-          {videoIds.length > 0
-            && (
-              <div>
-                <button type="button" onClick={playNext}>Skip</button>
-              </div>
-            )}
-        </div>
-      </form>
+              <button type="button" onClick={playNext}>Skip</button>
+            </div>
+          )}
+      </div>
+      <div>
+        {videoIds.length > 0
+          && (
+            <div>
+              <textarea rows="10" cols="50" placeholder="Leave a Comment" onChange={updateFieldChanged} />
+              <button type="button" onClick={(addComment)}>Submit</button>
+            </div>
+          )}
+      </div>
+      <div>
+        Comments:
+        <br />
+        {videoComments && videoComments.map((comment) => (
+          <div>
+            <p>
+              &quot;
+              {comment.text}
+              &quot;
+            </p>
+            <p>
+              -
+              {comment.user}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
