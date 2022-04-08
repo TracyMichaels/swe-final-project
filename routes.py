@@ -1,3 +1,4 @@
+'''These are the routes of the app, which help us navigate through it with different endpoints'''
 from app import db
 from app import app
 from flask import Blueprint, render_template, abort, flash, redirect, url_for, jsonify, session
@@ -10,22 +11,26 @@ from werkzeug.security import generate_password_hash, check_password_hash
 @app.route('/')
 @app.route('/home')
 def home():
+    '''This is the primary page, the one the user lands on after opening the app'''
     return render_template('home.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    '''Lets the user log in to their account'''
     return redirect(url_for('home'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    '''Allows the user to sign up with an account'''
     return redirect(url_for('home'))
 
 
 @app.route('/logout')
 @login_required
 def logout():
+    '''Logs the user out and returns to the main page```
     logout_user()
     return redirect(url_for('home'))
 
@@ -33,4 +38,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
