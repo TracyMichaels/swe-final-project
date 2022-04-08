@@ -1,4 +1,4 @@
-'''These are the routes of the app, which help us navigate through it with different endpoints'''
+'''These are the routes of the app, and there is a specific function for each'''
 from app import db
 from app import app
 from flask import Blueprint, render_template, abort, flash, redirect, url_for, jsonify, session
