@@ -6,6 +6,7 @@
     "rules": {
         "no-alert": 0,
         "no-undef": 0,
+        "no-console": 0,
         "import/no-named-as-default": 0,
         "import/no-named-as-default-member": 0
     },
