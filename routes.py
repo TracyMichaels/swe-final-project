@@ -1,5 +1,4 @@
 # pylint: disable=unused-import
-# This is a temporary diabling message, we will eventually use all of these imports
 """These are the routes of the app, which help us navigate through it with different endpoints"""
 from flask import (
     Blueprint,
