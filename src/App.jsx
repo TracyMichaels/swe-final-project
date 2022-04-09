@@ -1,3 +1,4 @@
+import './App.css';
 import React, { useState, useEffect } from 'react';
 
 const API_KEY = process.env.REACT_APP_YT_KEY;
@@ -83,7 +84,7 @@ function App() {
           setVideoComments(data);
         });
     } catch (err) {
-      console.log('will be fixed when backend is set up');
+      console.log('Not implemented yet, will be fixed when backend is set up');
     }
   }, [videoListIndex]);
 
@@ -123,17 +124,24 @@ function App() {
         body: JSON.stringify(newCommentObj),
       }).then((response) => response.json())
         .then((data) => {
-          setVideoComments(data);
+          if (!data.success) {
+            alert('User Must be logged in to perform this action');
+          } else {
+            setVideoComments(data.comments);
+          }
         });
     } catch (err) {
       console.log(`sending to back end: ${newCommentObj}`);
-      console.log('will be fixed when backend is set up');
+      console.log('Not implemented yetwill be fixed when backend is set up');
     }
   };
 
   // TODO: style
   return (
     <div className="App">
+      <a href="/login">Login</a>
+      <br />
+      <a href="/logout">Logout</a>
       <form>
         <input type="text" placeholder="Search" onChange={updateFieldChanged} />
         <button type="button" onClick={onSearchClick}>Search</button>

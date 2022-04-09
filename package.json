@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "BUILD_PATH='./static/react' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/*.js src/*.jsx",
@@ -37,6 +37,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "/static/react",
   "devDependencies": {
     "eslint": "^8.12.0",
     "eslint-config-airbnb": "^19.0.4",

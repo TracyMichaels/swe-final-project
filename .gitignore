@@ -8,9 +8,9 @@
 
 # production
 /build
+/static
 
 # misc
-*.txt
 .DS_Store
 .env
 .env.local
