@@ -25,7 +25,7 @@ login_manager.init_app(app)
 bp = flask.Blueprint(
     "bp",
     __name__,
-    template_folder="./public",
+    template_folder="./static/react",
 )
 
 @login_manager.user_loader
@@ -34,6 +34,10 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 @app.route("/")
+def index():
+    """This function will render the index page"""
+    return render_template("index.html")
+    
 @app.route("/login")
 def login():
     """This displays the login page"""
