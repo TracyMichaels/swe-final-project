@@ -68,7 +68,8 @@ def login_form():
     if user_query and user_query.verify_password(password):
         login_user(user_query)
         return render_template("index.html")
-    return jsonify({"status": 401, "reason": "Username or Password Error"})
+    flash("Invalid username or password")
+    return redirect(url_for("bp.login"))
 
 
 @app.route("/register", methods=["POST"])
