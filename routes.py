@@ -70,7 +70,7 @@ def login_form():
         login_user(user_query)
         return render_template("index.html")
     flash("Invalid username or password")
-    return redirect(url_for("/login"))
+    return redirect(url_for("app.login"))
 
 
 @app.route("/register", methods=["POST"])
