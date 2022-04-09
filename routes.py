@@ -1,6 +1,7 @@
 # pylint: disable=unused-import
 # pylint: disable=no-member
 """These are the routes of the app, which help us navigate through it with different endpoints"""
+import os
 import flask
 from flask import (
     Blueprint,
@@ -94,4 +95,4 @@ def logout():
 app.register_blueprint(bp)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "8080")), debug=True)
