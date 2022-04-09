@@ -75,6 +75,11 @@ def register_form():
         db.session.commit()
     return redirect(flask.url_for("login"))
 
+@bp.route("/logout")
+def logout():
+    """Logs the user out of the app, redirects him/her to the login page"""
+    return render_template("login.html")
+
 app.register_blueprint(bp)
 
 if __name__ == "__main__":
