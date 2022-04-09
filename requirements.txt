@@ -142,3 +142,9 @@ Werkzeug @ file:///tmp/build/80754af9/werkzeug_1635505089296/work
 wrapt==1.13.3
 WTForms @ file:///Users/ktietz/demo/mc3/conda-bld/wtforms_1629354749392/work
 zipp @ file:///opt/conda/conda-bld/zipp_1641824620731/work
+Flask
+requests
+python-dotenv
+flask-login
+Flask-SQLAlchemy
+psycopg2-binary
