@@ -142,6 +142,15 @@ function App() {
       <a href="/login">Login</a>
       <br />
       <a href="/logout">Logout</a>
+      <div>
+        {videoIds.length === 0
+          && (
+            <h3>
+              Search for your favorite artist, song,
+              or content creator to get an automatically generated playlist
+            </h3>
+          )}
+      </div>
       <form>
         <input type="text" placeholder="Search" onChange={updateFieldChanged} />
         <button type="button" onClick={onSearchClick}>Search</button>

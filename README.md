@@ -1,3 +1,21 @@
+# Heroku Url
+ - https://afternoon-spire-20798.herokuapp.com/
+
+
+# Project Description:
+ - Deliverable: Our goal is to deliver a dynamic one page web app that allows a user to automatically curate and play a list of YouTube videos based on a   keyword search, with certain filters that can be applied to better suit the users interests.  Users can also leave reviews for the current video that is playing, along with the ability to modify/delete reviews.
+ - Motivation:  People often turn to YouTube as a means to freely listen to music or podcasts, this app offers a radio-like experience in the sense that it is a stream of videos randomly put together with the added benefit of being customizable based on users interests.  
+ - Technical Approach: We will be using a Flask backend to make calls to YouTube’s API and store user information using SQLAchemy. The frontend will be implemented using the React JavaScript framework, along with HTML and CSS.  The web-app would finally be deployed to Heroku.
+
+# Tech Stack:
+ - Programming Languages: Python, Javascript
+ - Framework: React
+ - Database: Postgresql
+ - Front-end tools: We used React.js for the front-end set up and the Youtube api calls and comments section.
+ - Back-end tools: We used Flask to set up the server and user login and registeration and SQLAlchemy to set up the database to store user comments.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
