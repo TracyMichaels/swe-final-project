@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Login</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-      <title> Login </title>
-   </head>
-   <body style="background-color:#30343c">
-      <section class="vh-100">
-         <div class="container h-100">
-            <div class="d-flex align-items-center justify-content-center h-100">
-               <div class="col-lg-5">
-                  <h1 class="text-center text-white" >Login</h1>
-                  <form method="POST" action="/login">
-                     <div class="form-outline mb-4">
-                        <input class="form-control form-control-lg" type="text" name="username"  placeholder="Username" required />
-                     </div>
-                     <div class="form-outline mb-4">
-                        <input class="form-control form-control-lg" type="password" name="password" placeholder ="Password" required />
-                     </div>
-                     <div class="text-center mb-4">
-                        <a href="{{url_for('register')}}">Don't have an account? Register</a>
-                     </div>
-                     <button type="submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
-                  </form>
-               </div>
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+   <title> Login </title>
+</head>
+
+<body style="background-color:#30343c">
+   {% with messages = get_flashed_messages() %}
+   {% if messages %}
+   <ul class=flashes>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+   </ul>
+   {% endif %}
+   {% endwith %}
+   <section class="vh-100">
+      <div class="container h-100">
+         <div class="d-flex align-items-center justify-content-center h-100">
+            <div class="col-lg-5">
+               <h1 class="text-center text-white">Login</h1>
+               <form method="POST" action="/login">
+                  <div class="form-outline mb-4">
+                     <input class="form-control form-control-lg" type="text" name="username" placeholder="Username"
+                        required />
+                  </div>
+                  <div class="form-outline mb-4">
+                     <input class="form-control form-control-lg" type="password" name="password" placeholder="Password"
+                        required />
+                  </div>
+                  <div class="text-center mb-4">
+                     <a href="{{url_for('register')}}">Don't have an account? Register</a>
+                  </div>
+                  <button type="submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
+               </form>
             </div>
          </div>
-      </section>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-   </body>
+      </div>
+   </section>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"></script>
+</body>
+
 </html>
