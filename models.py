@@ -32,7 +32,7 @@ class Reviews(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     video_title = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     review = db.Column(db.String(280), nullable=False)
     video_id = db.Column(db.String(100), nullable=False)
 
