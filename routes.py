@@ -69,7 +69,7 @@ def login_form():
     if user_query and user_query.verify_password(password):
         login_user(user_query)
         return render_template("index.html")
-    flash("Invalid username or password")
+    flash("username or password incorrect")
     return render_template("login.html")
 
 
@@ -81,7 +81,8 @@ def register_form():
     new_user = User(user_name=user, password=pwd)
     user_query = User.query.filter_by(user_name=user).first()
     if user_query:
-        return jsonify({"status": 401, "reason": "Username taken"})
+        flash("Sorry... username taken")
+        return redirect(flask.url_for("register"))
     db.session.add(new_user)
     db.session.commit()
     return redirect(flask.url_for("login"))
