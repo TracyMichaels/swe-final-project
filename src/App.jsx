@@ -24,7 +24,7 @@ function App() {
     };
     fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
       // for local testing to save api calls (files located in public folder)
-      // fetch('./searchreturn.json', {
+      // fetch('../../searchreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function App() {
 
     fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
       // for local testing to save api calls (files located in public folder)
-      // fetch('./relatedreturn.json', {
+      // fetch('../../relatedreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -88,7 +88,8 @@ function App() {
     }
   }, [videoListIndex]);
 
-  const onSearchClick = () => {
+  const onSearchClick = (e) => {
+    e.preventDefault();
     setQuery(inputValue);
     setEnterFlag(true);
   };
@@ -151,7 +152,7 @@ function App() {
             </h3>
           )}
       </div>
-      <form>
+      <form onSubmit={onSearchClick}>
         <input type="text" placeholder="Search" onChange={updateFieldChanged} />
         <button type="button" onClick={onSearchClick}>Search</button>
       </form>
