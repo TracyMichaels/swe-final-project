@@ -7,7 +7,7 @@ from dotenv import find_dotenv, load_dotenv
 load_dotenv(find_dotenv())
 
 app = flask.Flask(__name__)
-database = os.getenv("DATABASE_URL")
+database = os.getenv("database")
 if database.startswith("postgres://"):
     database = database.replace("postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_DATABASE_URI"] = database
