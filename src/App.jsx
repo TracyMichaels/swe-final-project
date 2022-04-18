@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import YouTube from 'react-youtube';
 
 const API_KEY = process.env.REACT_APP_YT_KEY;
 const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/';
@@ -23,8 +24,8 @@ function App() {
       type: 'video',
     };
     fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
-      // for local testing to save api calls (files located in public folder)
-      // fetch('../../searchreturn.json', {
+    // for local testing to save api calls (files located in public folder)
+    // fetch('../../searchreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -50,8 +51,8 @@ function App() {
     };
 
     fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
-      // for local testing to save api calls (files located in public folder)
-      // fetch('../../relatedreturn.json', {
+    // for local testing to save api calls (files located in public folder)
+    // fetch('../../relatedreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -161,14 +162,16 @@ function App() {
           && (
             <div>
               <h3>{videoIds[videoListIndex].title}</h3>
-              <iframe
-                title="video"
-                width="560"
-                height="315"
-                src={`https://www.youtube.com/embed/${videoIds[videoListIndex].id}?autoplay=1`}
-                frameBorder="0"
-                allow="accelerometer; autoplay;"
-                allowFullScreen
+              <YouTube
+                videoId={videoIds[videoListIndex].id}
+                opts={{
+                  height: '390',
+                  width: '640',
+                  playerVars: {
+                    autoplay: 1,
+                  },
+                }}
+                onEnd={playNext}
               />
               <button type="button" onClick={playNext}>Skip</button>
             </div>

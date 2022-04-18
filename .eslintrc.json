@@ -7,8 +7,18 @@
         "no-alert": 0,
         "no-undef": 0,
         "no-console": 0,
-        "import/no-named-as-default": 0,
-        "import/no-named-as-default-member": 0
+        "import/no-named-as-default": 0
+        // for tesing without api calls purposes
+        // "import/no-named-as-default-member": 0,
+        // "no-unused-vars": 0,
+        // "max-len": 0,
+        // "indent": 0,
+        // "react/jsx-boolean-value": 0,
+        // "react/prefer-stateless-function": 0,
+        // "react/destructuring-assignment": 0,
+        // "react/prop-types": 0,
+        // "react/no-deprecated": 0,
+        // "react/no-this-in-sfc": 0
     },
     "parserOptions": {
         "ecmaVersion": 11
