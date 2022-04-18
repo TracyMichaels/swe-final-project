@@ -1,5 +1,8 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import { ReactComponent as Search } from './images/search.svg';
+import { ReactComponent as Skip } from './images/skip.svg';
+import { ReactComponent as Comment } from './images/comment.svg';
 
 const API_KEY = process.env.REACT_APP_YT_KEY;
 const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/';
@@ -138,38 +141,42 @@ function App() {
 
   // TODO: style
   return (
-    <div className="App">
-      <a href="/login">Login</a>
-      <br />
-      <a href="/logout">Logout</a>
-      <div>
+    <div>
+      <div className="nav">
+        <a className="remove-highlighting" href="/login">LOGIN |</a>
+        <a className="remove-highlighting" href="/logout"> LOGOUT</a>
+      </div>
+      <div className="App">
         {videoIds.length === 0
           && (
-            <h3>
+            <h3 className="description">
               Search for your favorite artist, song,
               or content creator to get an automatically generated playlist
             </h3>
           )}
+        <form>
+          <input className="search-bar" type="text" placeholder="Search" onChange={updateFieldChanged} />
+          <button type="button" onClick={onSearchClick} className="search-button">
+            <Search />
+          </button>
+        </form>
       </div>
-      <form>
-        <input type="text" placeholder="Search" onChange={updateFieldChanged} />
-        <button type="button" onClick={onSearchClick}>Search</button>
-      </form>
       <div>
         {videoIds.length > 0
           && (
             <div>
               <h3>{videoIds[videoListIndex].title}</h3>
               <iframe
+                className="video"
                 title="video"
-                width="560"
-                height="315"
                 src={`https://www.youtube.com/embed/${videoIds[videoListIndex].id}?autoplay=1`}
                 frameBorder="0"
                 allow="accelerometer; autoplay;"
                 allowFullScreen
               />
-              <button type="button" onClick={playNext}>Skip</button>
+              <button type="button" onClick={playNext} className="skip-button">
+                <Skip />
+              </button>
             </div>
           )}
       </div>
@@ -177,13 +184,19 @@ function App() {
         {videoIds.length > 0
           && (
             <div>
-              <textarea rows="10" cols="50" placeholder="Leave a Comment" onChange={updateFieldChanged} />
-              <button type="button" onClick={(addComment)}>Submit</button>
+              <input className="input" placeholder="Leave a Comment" onChange={updateFieldChanged} />
+              <br />
+              <button type="button" onClick={(addComment)} className="skip-button">
+                <br />
+                <div className="comment-button">
+                  <Comment className="comment-button" />
+                </div>
+              </button>
             </div>
           )}
       </div>
       <div>
-        Comments:
+        {/* Comments: */}
         <br />
         {videoComments && videoComments.map((comment) => (
           <div>
