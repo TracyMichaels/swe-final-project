@@ -156,7 +156,7 @@ function App() {
               or content creator to get an automatically generated playlist
             </h3>
           )}
-      <form onSubmit={onSearchClick}>
+        <form onSubmit={onSearchClick}>
           <input className="search-bar" type="text" placeholder="Search" onChange={updateFieldChanged} />
           <button type="button" onClick={onSearchClick} className="search-button">
             <Search />
