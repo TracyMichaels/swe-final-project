@@ -14,8 +14,9 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [query, setQuery] = useState('');
   const [enterFlag, setEnterFlag] = useState(false);
-  const [videoListIndex, setVideoListIndex] = useState(0);
+  const [videoListIndex, setVideoListIndex] = useState(-1);
   const [videoComments, setVideoComments] = useState([]);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
   // get initial video id based on query
   useEffect(() => {
@@ -26,10 +27,10 @@ function App() {
       q: query,
       type: 'video',
     };
-    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
+    // fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
     // for local testing to save api calls (files located in public folder)
-    // fetch('../../searchreturn.json', {
-      method: 'GET',
+    fetch('./static/react/relatedreturn.json', {
+      // method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -53,10 +54,10 @@ function App() {
       type: 'video',
     };
 
-    fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
+    // fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
     // for local testing to save api calls (files located in public folder)
-    // fetch('../../relatedreturn.json', {
-      method: 'GET',
+    fetch('./static/react/relatedreturn.json', {
+      // method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -76,19 +77,25 @@ function App() {
     setEnterFlag(false);
   }, [initalId]);
 
-  // WARNING: DEPENDING ON HOW THE BACK END IS SET UP,
-  // THE ENDPOINT NAMES AND FORMATTING AND WILL NEED TO BE CHANGED
+  // set video index when videoIds is updated
+  useEffect(() => {
+    if (videoIds.length === 0) return;
+    setVideoListIndex(0);
+  }, [videoIds]);
+
   // get comments for currently playing video
   useEffect(() => {
     // TODO: remove try catch when backend is set up
+    if (videoListIndex === -1) return;
     try {
-      fetch(`/getComments?id=${videoIds[videoListIndex].id}`)
+      fetch(`/getComments?videoId=${videoIds[videoListIndex].id}`)
         .then((response) => response.json())
         .then((data) => {
-          setVideoComments(data);
+          setVideoComments(data.comment_list);
+          setUserLoggedIn(data.logged_in);
         });
     } catch (err) {
-      console.log('Not implemented yet, will be fixed when backend is set up');
+      console.log('An Error Occured: ', err);
     }
   }, [videoListIndex]);
 
@@ -111,34 +118,35 @@ function App() {
     }
   };
 
-  // WARNING: DEPENDING ON HOW THE BACK END IS SET UP,
-  // THE ENDPOINT NAMES AND FORMATTING AND WILL NEED TO BE CHANGED
+  // add comment to database for currently playing video
   const addComment = () => {
     const newCommentObj = {
       videoId: videoIds[videoListIndex].id,
+      videoTitle: videoIds[videoListIndex].title,
       comment: inputValue,
     };
+
     // TODO: remove try catch when backend is set up
     try {
       fetch('/addComment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
         },
         body: JSON.stringify(newCommentObj),
       }).then((response) => response.json())
         .then((data) => {
-          if (!data.success) {
+          console.log(data);
+          if (!data.logged_in) {
             alert('User Must be logged in to perform this action');
           } else {
-            setVideoComments(data.comments);
+            setVideoComments(data.comment_list);
           }
         });
     } catch (err) {
-      console.log(`sending to back end: ${newCommentObj}`);
-      console.log('Not implemented yetwill be fixed when backend is set up');
+      console.log('Error adding comment: ', err);
     }
+    
   };
 
   // TODO: style
@@ -164,7 +172,7 @@ function App() {
         </form>
       </div>
       <div>
-        {videoIds.length > 0
+        {videoIds.length > 0 && videoListIndex !== -1
           && (
             <div>
               <h3>{videoIds[videoListIndex].title}</h3>
@@ -185,7 +193,7 @@ function App() {
           )}
       </div>
       <div>
-        {videoIds.length > 0
+        {videoIds.length > 0 && videoListIndex !== -1
           && (
             <div>
               <input className="input" placeholder="Leave a Comment" onChange={updateFieldChanged} />
@@ -202,7 +210,7 @@ function App() {
       <div>
         {/* Comments: */}
         <br />
-        {videoComments && videoComments.map((comment) => (
+        {videoComments && videoComments.length > 0 && videoComments.map((comment) => (
           <div>
             <p>
               &quot;
