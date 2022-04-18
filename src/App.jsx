@@ -18,6 +18,8 @@ function App() {
   const [videoComments, setVideoComments] = useState([]);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
+  console.log(videoListIndex);
+
   // get initial video id based on query
   useEffect(() => {
     if (!enterFlag) return;
@@ -103,6 +105,7 @@ function App() {
     e.preventDefault();
     setQuery(inputValue);
     setEnterFlag(true);
+    setInputValue('');
   };
 
   const updateFieldChanged = (e) => {
@@ -146,7 +149,7 @@ function App() {
     } catch (err) {
       console.log('Error adding comment: ', err);
     }
-    
+    setInputValue('');
   };
 
   // TODO: style
@@ -193,10 +196,15 @@ function App() {
           )}
       </div>
       <div>
-        {videoIds.length > 0 && videoListIndex !== -1
+        {videoIds.length > 0
+          && videoListIndex !== -1
           && (
             <div>
-              <input className="input" placeholder="Leave a Comment" onChange={updateFieldChanged} />
+              <input
+                className="input"
+                placeholder={userLoggedIn ? 'Leave a Comment' : 'Must Be Logged in to Leave A Comment'}
+                onChange={updateFieldChanged}
+              />
               <br />
               <button type="button" onClick={(addComment)} className="skip-button">
                 <br />
@@ -210,19 +218,21 @@ function App() {
       <div>
         {/* Comments: */}
         <br />
-        {videoComments && videoComments.length > 0 && videoComments.map((comment) => (
-          <div>
-            <p>
-              &quot;
-              {comment.text}
-              &quot;
-            </p>
-            <p>
-              -
-              {comment.user}
-            </p>
-          </div>
-        ))}
+        {videoComments
+          && videoComments.length > 0
+          && videoComments.map((comment) => (
+            <div>
+              <p>
+                &quot;
+                {comment.text}
+                &quot;
+              </p>
+              <p>
+                -
+                {comment.user}
+              </p>
+            </div>
+          ))}
       </div>
     </div>
   );
