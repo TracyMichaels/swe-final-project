@@ -18,8 +18,6 @@ function App() {
   const [videoComments, setVideoComments] = useState([]);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-  console.log(videoListIndex);
-
   // get initial video id based on query
   useEffect(() => {
     if (!enterFlag) return;
@@ -29,10 +27,10 @@ function App() {
       q: query,
       type: 'video',
     };
-    // fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
     // for local testing to save api calls (files located in public folder)
-    fetch('./static/react/relatedreturn.json', {
-      // method: 'GET',
+    // fetch('./static/react/relatedreturn.json', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -56,10 +54,10 @@ function App() {
       type: 'video',
     };
 
-    // fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
     // for local testing to save api calls (files located in public folder)
-    fetch('./static/react/relatedreturn.json', {
-      // method: 'GET',
+    // fetch('./static/react/relatedreturn.json', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
