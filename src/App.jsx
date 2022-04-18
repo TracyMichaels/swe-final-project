@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import YouTube from 'react-youtube';
 import { ReactComponent as Search } from './images/search.svg';
 import { ReactComponent as Skip } from './images/skip.svg';
 import { ReactComponent as Comment } from './images/comment.svg';
@@ -26,8 +27,8 @@ function App() {
       type: 'video',
     };
     fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
-      // for local testing to save api calls (files located in public folder)
-      // fetch('./searchreturn.json', {
+    // for local testing to save api calls (files located in public folder)
+    // fetch('../../searchreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -53,8 +54,8 @@ function App() {
     };
 
     fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
-      // for local testing to save api calls (files located in public folder)
-      // fetch('./relatedreturn.json', {
+    // for local testing to save api calls (files located in public folder)
+    // fetch('../../relatedreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +92,8 @@ function App() {
     }
   }, [videoListIndex]);
 
-  const onSearchClick = () => {
+  const onSearchClick = (e) => {
+    e.preventDefault();
     setQuery(inputValue);
     setEnterFlag(true);
   };
@@ -154,7 +156,7 @@ function App() {
               or content creator to get an automatically generated playlist
             </h3>
           )}
-        <form>
+      <form onSubmit={onSearchClick}>
           <input className="search-bar" type="text" placeholder="Search" onChange={updateFieldChanged} />
           <button type="button" onClick={onSearchClick} className="search-button">
             <Search />
@@ -166,13 +168,15 @@ function App() {
           && (
             <div>
               <h3>{videoIds[videoListIndex].title}</h3>
-              <iframe
+              <YouTube
                 className="video"
-                title="video"
-                src={`https://www.youtube.com/embed/${videoIds[videoListIndex].id}?autoplay=1`}
-                frameBorder="0"
-                allow="accelerometer; autoplay;"
-                allowFullScreen
+                videoId={videoIds[videoListIndex].id}
+                opts={{
+                  playerVars: {
+                    autoplay: 1,
+                  },
+                }}
+                onEnd={playNext}
               />
               <button type="button" onClick={playNext} className="skip-button">
                 <Skip />

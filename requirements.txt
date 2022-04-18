@@ -1,6 +1,10 @@
-Flask
-requests
-python-dotenv
-flask-login
-Flask-SQLAlchemy
-psycopg2-binary
+Flask==2.0.2
+Flask_Login==0.5.0
+Flask_SQLAlchemy==2.1
+python-dotenv==0.19.2
+requests==2.22.0
+Jinja2==3.0.3
+pylint==2.12.2
+psycopg2-binary==2.9.3
+SQLAlchemy==1.4.31
+werkzeug>=2.0
