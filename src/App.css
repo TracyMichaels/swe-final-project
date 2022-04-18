@@ -79,16 +79,16 @@ body{
   border-bottom: solid black 1px;
   padding: 3px 1px;
   width: 35%;
-  margin-top: 45px;
-  margin-left: 30%;
   display: block;
   z-index: 100;
-
+  margin-left:55vh;
+  margin-top:11vh;
+  position:absolute;
 }
 
 .comment-button{
- margin-top:5px;
- margin-left:21vh;
- display: block;
- z-index: 100;
+ margin-left:31vh;
+ margin-top:10vh;
+ position:absolute;
+
 }

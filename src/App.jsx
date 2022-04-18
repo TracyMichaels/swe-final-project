@@ -203,11 +203,9 @@ function App() {
                 placeholder={userLoggedIn ? 'Leave a Comment' : 'Must Be Logged in to Leave A Comment'}
                 onChange={updateFieldChanged}
               />
-              <br />
               <button type="button" onClick={(addComment)} className="skip-button">
-                <br />
                 <div className="comment-button">
-                  <Comment className="comment-button" />
+                  <Comment />
                 </div>
               </button>
             </div>
