@@ -23,7 +23,7 @@ from flask_login import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, app
-from models import User
+from models import User, Reviews
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -72,6 +72,49 @@ def login_form():
     flash("username or password incorrect")
     return render_template("login.html")
 
+@app.route("/addComment", methods=["GET", "POST"])
+def comment_it():
+    """This adds a comment to the database for the specific video"""
+    info = request.json
+    video_title = info["videoTitle"][:100]
+    success = current_user.is_authenticated
+    if request.method == "POST" and success:
+        record = Reviews(
+            video_title=video_title,
+            user_id=current_user.id,
+            review=info["comment"][:280],
+            video_id=info["videoId"],
+        )
+        db.session.add(record)
+    db.session.commit()
+    comments = Reviews.query.filter_by(video_id=info["videoId"]).all()
+    comment_list = []
+    for comment in comments:
+        comment_list.append(
+            {
+                "user": User.query.filter_by(id=comment.user_id).first().user_name,
+                "text": comment.review,
+            }
+        )
+
+    return jsonify({"comment_list": comment_list, "logged_in": current_user.is_authenticated})
+
+@app.route("/getComments", methods=["GET", "POST"])
+def render_comments():
+    """This gets all the comments back from the database"""
+
+    comments = Reviews.query.filter_by(video_id=request.args.get("videoId")).all()
+
+    comment_list = []
+    for comment in comments:
+        comment_list.append(
+            {
+                "user": User.query.filter_by(id=comment.user_id).first().user_name,
+                "text": comment.review,
+            }
+        )
+
+    return jsonify({"comment_list": comment_list, "logged_in": current_user.is_authenticated})
 
 @app.route("/register", methods=["POST"])
 def register_form():
@@ -97,4 +140,5 @@ def logout():
 app.register_blueprint(bp)
 
 if __name__ == "__main__":
-    app.run(os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "8080")), debug=True)
+    app.run(debug=True)
+    #app.run(os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "8080")), debug=True)
