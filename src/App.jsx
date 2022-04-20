@@ -17,6 +17,7 @@ function App() {
   const [videoListIndex, setVideoListIndex] = useState(-1);
   const [videoComments, setVideoComments] = useState([]);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [savedPlaylists, setSavedPlaylists] = useState([]);
 
   // get initial video id based on query
   useEffect(() => {
@@ -96,7 +97,7 @@ function App() {
     } catch (err) {
       console.log('An Error Occured: ', err);
     }
-  }, [videoListIndex]);
+  }, [videoListIndex, videoIds]);
 
   // get if user is logged in
   useEffect(() => {
@@ -106,6 +107,35 @@ function App() {
         setUserLoggedIn(data.logged_in);
       });
   }, []);
+
+  // get saved playlists
+  useEffect(() => {
+    fetch('/getPlaylist')
+      .then((response) => response.json())
+      .then((data) => {
+        setSavedPlaylists(data.savedPlaylists);
+      });
+  }, []);
+
+  const savePlaylist = () => {
+    const newSaveObj = {
+      title: query,
+      playlist: JSON.stringify(videoIds),
+    };
+
+    console.log('newSaveObj: ', newSaveObj);
+    fetch('/addPlaylist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newSaveObj),
+    }).then((response) => response.json()).then((data) => {
+      console.log(data);
+      setSavedPlaylists(data.savedPlaylists);
+      console.log('savedPlaylists: ', savedPlaylists);
+    });
+  };
 
   const onSearchClick = (e) => {
     e.preventDefault();
@@ -161,86 +191,111 @@ function App() {
   // TODO: style
   return (
     <div>
-      <div className="nav">
-        {userLoggedIn ? (
-          <a className="remove-highlighting" href="/logout"> LOGOUT</a>
-        ) : (
-          <a className="remove-highlighting" href="/login">LOGIN</a>
-        )}
-      </div>
-      <div className="App">
-        {videoIds.length === 0
-          && (
-            <h3 className="description">
-              Search for your favorite artist, song,
-              or content creator to get an automatically generated playlist
-            </h3>
-          )}
-        <form onSubmit={onSearchClick}>
-          <input className="search-bar" type="text" placeholder="Search" onChange={updateFieldChanged} />
-          <button type="button" onClick={onSearchClick} className="search-button">
-            <Search />
-          </button>
-        </form>
-      </div>
       <div>
-        {videoIds.length > 0 && videoListIndex !== -1
-          && (
-            <div>
-              <h3>{videoIds[videoListIndex].title}</h3>
-              <YouTube
-                className="video"
-                videoId={videoIds[videoListIndex].id}
-                opts={{
-                  playerVars: {
-                    autoplay: 1,
-                  },
-                }}
-                onEnd={playNext}
-              />
-              <button type="button" onClick={playNext} className="skip-button">
-                <Skip />
-              </button>
-            </div>
+
+        <div className="nav">
+          {userLoggedIn ? (
+            <a className="remove-highlighting" href="/logout"> LOGOUT</a>
+          ) : (
+            <a className="remove-highlighting" href="/login">LOGIN</a>
           )}
-      </div>
-      <div className="comment-wrapper">
-        {videoIds.length > 0
-          && videoListIndex !== -1
-          && (
-            <div>
+        </div>
+        <div className="App">
+          {videoIds.length === 0
+            && (
+              <h3 className="description">
+                Search for your favorite artist, song,
+                or content creator to get an automatically generated playlist
+              </h3>
+            )}
+          <form onSubmit={onSearchClick}>
+            <input className="search-bar" type="text" placeholder="Search" onChange={updateFieldChanged} />
+            <button type="button" onClick={onSearchClick} className="search-button">
+              <Search />
+            </button>
+          </form>
+        </div>
+        <div>
+          {videoIds.length > 0 && videoListIndex !== -1
+            && (
               <div>
-                <input
-                  className="input"
-                  placeholder={userLoggedIn ? 'Leave a Comment' : 'Must Be Logged in to Leave A Comment'}
-                  onChange={updateFieldChanged}
+                <h3>{videoIds[videoListIndex].title}</h3>
+                <YouTube
+                  className="video"
+                  videoId={videoIds[videoListIndex].id}
+                  opts={{
+                    playerVars: {
+                      autoplay: 1,
+                    },
+                  }}
+                  onEnd={playNext}
                 />
+                <button type="button" onClick={playNext} className="skip-button">
+                  <Skip />
+                </button>
+                {userLoggedIn && (
+                  <button type="button" onClick={savePlaylist}>Save Playlist</button>
+                )}
               </div>
-              <br />
-              <button type="button" onClick={(addComment)} className="skip-button">
-                <Comment className="comment-button" />
-              </button>
-            </div>
-          )}
+            )}
+        </div>
+        <div className="comment-wrapper">
+          {videoIds.length > 0
+            && videoListIndex !== -1
+            && (
+              <div>
+                <div>
+                  <input
+                    className="input"
+                    placeholder={userLoggedIn ? 'Leave a Comment' : 'Must Be Logged in to Leave A Comment'}
+                    onChange={updateFieldChanged}
+                  />
+                </div>
+                <br />
+                <button type="button" onClick={(addComment)} className="skip-button">
+                  <Comment className="comment-button" />
+                </button>
+              </div>
+            )}
+        </div>
+        <div>
+          {/* Comments: */}
+          <br />
+          {videoComments
+            && videoComments.length > 0
+            && videoComments.map((comment) => (
+              <div>
+                <p>
+                  &quot;
+                  {comment.text}
+                  &quot;
+                </p>
+                <p>
+                  -
+                  {comment.user}
+                </p>
+              </div>
+            ))}
+        </div>
       </div>
-      <div>
-        {/* Comments: */}
-        <br />
-        {videoComments
-          && videoComments.length > 0
-          && videoComments.map((comment) => (
-            <div>
-              <p>
-                &quot;
-                {comment.text}
-                &quot;
-              </p>
-              <p>
-                -
-                {comment.user}
-              </p>
-            </div>
-          ))}
+      <div style={{ position: 'absolute', right: '10px' }}>
+        {userLoggedIn && savedPlaylists.length > 0 && (
+          <div>
+            <h3>Your Saved Playlists:</h3>
+            <ul>
+              {savedPlaylists.map((playlist) => (
+                <li style={{ 'list-style-type': 'none' }}>
+                  <button
+                    type="button"
+                    onClick={() => setVideoIds(JSON.parse(playlist.playlist))}
+                  >
+                    {playlist.playlistTitle}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -176,8 +176,10 @@ def append_playlist():
 
 
 @app.route("/getPlaylist", methods=["GET", "POST"])
+@login_required
 def get_playlist():
     """This brings all the comments from the database to the front end"""
+
     playlists = Playlists.query.filter_by(user_id=current_user.id).all()
     saved_playlists = []
     for each in playlists:
@@ -187,7 +189,7 @@ def get_playlist():
                 "playlist": each.playlist,            
             }
         )
-    
+        
     return jsonify({"savedPlaylists": saved_playlists})
 
 
