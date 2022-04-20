@@ -72,7 +72,7 @@ def login_form():
     flash("username or password incorrect")
     return render_template("login.html")
 
-@app.route("userLoggedIn")
+@app.route("/userLoggedIn")
 def user_logged_in():
     """This method returns if the user is logged in"""
     return jsonify({"logged_in": current_user.is_authenticated})
