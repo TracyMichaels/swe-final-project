@@ -23,7 +23,7 @@ from flask_login import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, app
-from models import User, Reviews
+from models import User, Reviews, Playlists
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -72,10 +72,12 @@ def login_form():
     flash("username or password incorrect")
     return render_template("login.html")
 
+
 @app.route("/userLoggedIn")
 def user_logged_in():
     """This method returns if the user is logged in"""
     return jsonify({"logged_in": current_user.is_authenticated})
+
 
 @app.route("/addComment", methods=["GET", "POST"])
 def comment_it():
@@ -104,6 +106,7 @@ def comment_it():
 
     return jsonify({"comment_list": comment_list})
 
+
 @app.route("/getComments", methods=["GET", "POST"])
 def render_comments():
     """This gets all the comments back from the database"""
@@ -120,6 +123,7 @@ def render_comments():
         )
 
     return jsonify({"comment_list": comment_list})
+
 
 @app.route("/register", methods=["POST"])
 def register_form():
@@ -139,13 +143,56 @@ def register_form():
 @bp.route("/logout")
 def logout():
     """Logs the user out of the app, redirects him/her to the login page"""
-    #log out current user
     logout_user()
     return render_template("login.html")
+
+
+@app.route("/addPlaylist", methods=["GET", "POST"])
+def append_playlist():
+    """This adds the saved playlist to the user's name in the database"""
+    data = request.json
+    user_id = current_user.id
+    playlist_title = data["title"]
+    playlist = str(data["playlist"])
+    if request.method == "POST":
+        record = Playlists(
+            user_id=user_id, 
+            playlist_title=playlist_title, 
+            playlist=playlist
+        )
+        db.session.add(record)
+    db.session.commit()
+    saved = Playlists.query.filter_by(user_id=user_id).all()
+    saved_playlists = []
+    for each in saved:
+        saved_playlists.append(
+            {
+                "playlistTitle": each.playlist_title, 
+                "playlist": each.playlist,
+            }
+        )
+
+    return jsonify({"savedPlaylists": saved_playlists})
+
+
+@app.route("/getPlaylist", methods=["GET", "POST"])
+def get_playlist():
+    """This brings all the comments from the database to the front end"""
+    playlists = Playlists.query.filter_by(user_id=current_user.id).all()
+    saved_playlists = []
+    for each in playlists:
+        saved_playlists.append(
+            {
+                "playlistTitle": each.playlist_title, 
+                "playlist": each.playlist,            
+            }
+        )
+    
+    return jsonify({"savedPlaylists": saved_playlists})
 
 
 app.register_blueprint(bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
-    #app.run(os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "8080")), debug=True)
+    # app.run(os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "8080")), debug=True)
