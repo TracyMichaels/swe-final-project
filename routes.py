@@ -139,6 +139,8 @@ def register_form():
 @bp.route("/logout")
 def logout():
     """Logs the user out of the app, redirects him/her to the login page"""
+    #log out current user
+    logout_user()
     return render_template("login.html")
 
 
