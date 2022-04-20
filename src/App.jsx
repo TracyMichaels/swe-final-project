@@ -28,8 +28,8 @@ function App() {
       type: 'video',
     };
     fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
-    // for local testing to save api calls (files located in public folder)
-    // fetch('./static/react/relatedreturn.json', {
+      // for local testing to save api calls (files located in public folder)
+      // fetch('./static/react/relatedreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -55,8 +55,8 @@ function App() {
     };
 
     fetch(`${YOUTUBE_URL}search?part=${params.part}&relatedToVideoId=${params.videoId}&maxResults=${params.numResults}&type=${params.type}&key=${params.key}`, {
-    // for local testing to save api calls (files located in public folder)
-    // fetch('./static/react/relatedreturn.json', {
+      // for local testing to save api calls (files located in public folder)
+      // fetch('./static/react/relatedreturn.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -92,12 +92,20 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           setVideoComments(data.comment_list);
-          setUserLoggedIn(data.logged_in);
         });
     } catch (err) {
       console.log('An Error Occured: ', err);
     }
   }, [videoListIndex]);
+
+  // get if user is logged in
+  useEffect(() => {
+    fetch('/getUserLoggedIn')
+      .then((response) => response.json())
+      .then((data) => {
+        setUserLoggedIn(data.logged_in);
+      });
+  }, []);
 
   const onSearchClick = (e) => {
     e.preventDefault();
@@ -138,7 +146,7 @@ function App() {
       }).then((response) => response.json())
         .then((data) => {
           console.log(data);
-          if (!data.logged_in) {
+          if (!userLoggedIn) {
             alert('User Must be logged in to perform this action');
           } else {
             setVideoComments(data.comment_list);
@@ -154,8 +162,11 @@ function App() {
   return (
     <div>
       <div className="nav">
-        <a className="remove-highlighting" href="/login">LOGIN |</a>
-        <a className="remove-highlighting" href="/logout"> LOGOUT</a>
+        {userLoggedIn ? (
+          <a className="remove-highlighting" href="/logout"> LOGOUT</a>
+        ) : (
+          <a className="remove-highlighting" href="/login">LOGIN</a>
+        )}
       </div>
       <div className="App">
         {videoIds.length === 0
