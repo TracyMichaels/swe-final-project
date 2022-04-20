@@ -60,7 +60,7 @@ def register():
 
 @app.route("/userLoggedIn")
 def user_logged_in():
-    """This returns if the user is logged in"""
+    """This method returns if the user is logged in"""
     return jsonify({"logged_in": current_user.is_authenticated})
 
 @bp.route("/login", methods=["POST"])
