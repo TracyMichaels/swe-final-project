@@ -53,9 +53,9 @@ class Playlists(db.Model):
     
     def __repr__(self):
         """Represents the playlist saved by the user"""
-        return f"<{self.user_id}:{self.playlist}>"
+        return f"<{self.user_id}:{self.playlist_title}>"
     
-    def playlist(self):
+    def playlists(self):
         """Returns the saved playlist"""
         return self.playlist
 
