@@ -58,6 +58,10 @@ def register():
     """Displays the sign up page"""
     return render_template("register.html")
 
+@app.route("/userLoggedIn")
+def user_logged_in():
+    """This returns if the user is logged in"""
+    return jsonify({"logged_in": current_user.is_authenticated})
 
 @bp.route("/login", methods=["POST"])
 def login_form():
@@ -97,7 +101,7 @@ def comment_it():
             }
         )
 
-    return jsonify({"comment_list": comment_list, "logged_in": current_user.is_authenticated})
+    return jsonify({"comment_list": comment_list})
 
 @app.route("/getComments", methods=["GET", "POST"])
 def render_comments():
@@ -114,7 +118,7 @@ def render_comments():
             }
         )
 
-    return jsonify({"comment_list": comment_list, "logged_in": current_user.is_authenticated})
+    return jsonify({"comment_list": comment_list})
 
 @app.route("/register", methods=["POST"])
 def register_form():
