@@ -72,6 +72,11 @@ def login_form():
     flash("username or password incorrect")
     return render_template("login.html")
 
+@app.route("userLoggedIn")
+def user_logged_in():
+    """This method returns if the user is logged in"""
+    return jsonify({"logged_in": current_user.is_authenticated})
+
 @app.route("/addComment", methods=["GET", "POST"])
 def comment_it():
     """This adds a comment to the database for the specific video"""
@@ -97,7 +102,7 @@ def comment_it():
             }
         )
 
-    return jsonify({"comment_list": comment_list, "logged_in": current_user.is_authenticated})
+    return jsonify({"comment_list": comment_list})
 
 @app.route("/getComments", methods=["GET", "POST"])
 def render_comments():
@@ -114,7 +119,7 @@ def render_comments():
             }
         )
 
-    return jsonify({"comment_list": comment_list, "logged_in": current_user.is_authenticated})
+    return jsonify({"comment_list": comment_list})
 
 @app.route("/register", methods=["POST"])
 def register_form():
