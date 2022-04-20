@@ -87,3 +87,12 @@ body{
 comment-button{
 margin-top: 50px;
 }
+
+.save-button {
+  background-color: transparent;
+  border: none;
+  resize: none;
+  outline: none;
+  text-align: center;
+  height: center;
+}
