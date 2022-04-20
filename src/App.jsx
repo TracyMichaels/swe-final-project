@@ -204,20 +204,21 @@ function App() {
             </div>
           )}
       </div>
-      <div>
+      <div className="comment-wrapper">
         {videoIds.length > 0
           && videoListIndex !== -1
           && (
             <div>
-              <input
-                className="input"
-                placeholder={userLoggedIn ? 'Leave a Comment' : 'Must Be Logged in to Leave A Comment'}
-                onChange={updateFieldChanged}
-              />
+              <div>
+                <input
+                  className="input"
+                  placeholder={userLoggedIn ? 'Leave a Comment' : 'Must Be Logged in to Leave A Comment'}
+                  onChange={updateFieldChanged}
+                />
+              </div>
+              <br />
               <button type="button" onClick={(addComment)} className="skip-button">
-                <div className="comment-button">
-                  <Comment />
-                </div>
+                <Comment className="comment-button" />
               </button>
             </div>
           )}
