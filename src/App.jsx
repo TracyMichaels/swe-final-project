@@ -100,7 +100,7 @@ function App() {
 
   // get if user is logged in
   useEffect(() => {
-    fetch('/getUserLoggedIn')
+    fetch('/userLoggedIn')
       .then((response) => response.json())
       .then((data) => {
         setUserLoggedIn(data.logged_in);
