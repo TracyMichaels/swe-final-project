@@ -104,8 +104,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setUserLoggedIn(data.logged_in);
-      }
-      );
+      });
   }, []);
 
   const onSearchClick = (e) => {
