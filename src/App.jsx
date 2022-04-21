@@ -28,19 +28,29 @@ function App() {
       q: query,
       type: 'video',
     };
-    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=1&key=${params.key}`, {
+    fetch(`${YOUTUBE_URL}search?part=${params.part}&q=${params.q}&maxResults=10&key=${params.key}`, {
       // for local testing to save api calls (files located in public folder)
-      // fetch('./static/react/relatedreturn.json', {
+      // fetch('./static/react/searchreturn.json', {
+      // fetch('./static/react/searchreturn_firstitemchannel.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
     }).then((response) => response.json()).then((data) => {
-      setInitalId({
-        id: data.items[0].id.videoId,
-        title: data.items[0].snippet.title,
-      });
+      // get first item with video id
+      let foundFlag = false;
+      for (let i = 0; i < data.items.length; i += 1) {
+        if (data.items[i].id.kind === 'youtube#video') {
+          foundFlag = true;
+          setInitalId({
+            id: data.items[i].id.videoId,
+            title: data.items[i].snippet.title,
+          });
+          break;
+        }
+      }
+      if (!foundFlag) alert('No Videos Found Based on Search Parameters');
     });
   }, [query]);
 
