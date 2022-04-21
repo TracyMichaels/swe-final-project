@@ -268,15 +268,13 @@ function App() {
             && videoComments.length > 0
             && videoComments.map((comment) => (
               <div>
-                <p>
-                  &quot;
+                <div className="comments">
+                  <div className="username">
+                    {comment.user}
+                  </div>
                   {comment.text}
-                  &quot;
-                </p>
-                <p>
-                  -
-                  {comment.user}
-                </p>
+                </div>
+                <br />
               </div>
             ))}
         </div>
