@@ -87,3 +87,36 @@ body{
 comment-button{
 margin-top: 50px;
 }
+
+.save-button {
+  background-color: transparent;
+  border: none;
+  resize: none;
+  outline: none;
+  text-align: center;
+  height: center;
+}
+
+.username{
+  width:25%;
+  background-color: #394150;
+  padding:5px;
+  color:white;
+  border-radius:5px;
+  margin: left;
+  border-radius: 1px;
+  box-shadow: 5px 5px #888888;
+  font-family:sans-serif;
+  font-size: 17px;
+  font-weight: normal;
+}
+
+.comments{
+  width:35%;
+  background-color: white;
+  padding:13px;
+  height: 10%;
+  color:black;
+  border-radius:7px;
+  margin: auto;
+}

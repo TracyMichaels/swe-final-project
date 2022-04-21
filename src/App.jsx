@@ -4,6 +4,7 @@ import YouTube from 'react-youtube';
 import { ReactComponent as Search } from './images/search.svg';
 import { ReactComponent as Skip } from './images/skip.svg';
 import { ReactComponent as Comment } from './images/comment.svg';
+import { ReactComponent as Save } from './images/save.svg';
 
 const API_KEY = process.env.REACT_APP_YT_KEY;
 const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/';
@@ -234,7 +235,9 @@ function App() {
                   <Skip />
                 </button>
                 {userLoggedIn && (
-                  <button type="button" onClick={savePlaylist}>Save Playlist</button>
+                  <button className="save-button" type="button" onClick={savePlaylist}>
+                    <Save />
+                  </button>
                 )}
               </div>
             )}
@@ -265,15 +268,13 @@ function App() {
             && videoComments.length > 0
             && videoComments.map((comment) => (
               <div>
-                <p>
-                  &quot;
+                <div className="comments">
+                  <div className="username">
+                    {comment.user}
+                  </div>
                   {comment.text}
-                  &quot;
-                </p>
-                <p>
-                  -
-                  {comment.user}
-                </p>
+                </div>
+                <br />
               </div>
             ))}
         </div>
