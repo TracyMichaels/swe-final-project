@@ -1,3 +1,4 @@
+# pylint: disable=trailing-whitespace
 # pylint: disable=no-member
 """These are the routes of the app, which help us navigate through it with different endpoints"""
 import os
@@ -5,12 +6,10 @@ import flask
 from flask import (
     Blueprint,
     render_template,
-    abort,
     flash,
     redirect,
     url_for,
     jsonify,
-    session,
     request,
 )
 from flask_login import (
@@ -132,10 +131,10 @@ def register_form():
     user_query = User.query.filter_by(user_name=user).first()
     if user_query:
         flash("Sorry... username taken")
-        return redirect(flask.url_for("register"))
+        return redirect(url_for("register"))
     db.session.add(new_user)
     db.session.commit()
-    return redirect(flask.url_for("login"))
+    return redirect(url_for("login"))
 
 
 @bp.route("/logout")
