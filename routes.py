@@ -2,7 +2,6 @@
 # pylint: disable=no-member
 """These are the routes of the app, which help us navigate through it with different endpoints"""
 import os
-import flask
 from flask import (
     Blueprint,
     render_template,
