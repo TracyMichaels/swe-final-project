@@ -1,18 +1,14 @@
 # pylint: disable=trailing-whitespace
-# pylint: disable=unused-import
 # pylint: disable=no-member
 """These are the routes of the app, which help us navigate through it with different endpoints"""
 import os
-import flask
 from flask import (
     Blueprint,
     render_template,
-    abort,
     flash,
     redirect,
     url_for,
     jsonify,
-    session,
     request,
 )
 from flask_login import (
@@ -22,14 +18,13 @@ from flask_login import (
     current_user,
     logout_user,
 )
-from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, app
 from models import User, Reviews, Playlists
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-bp = flask.Blueprint(
+bp = Blueprint(
     "bp",
     __name__,
     template_folder="./static/react",
@@ -135,10 +130,10 @@ def register_form():
     user_query = User.query.filter_by(user_name=user).first()
     if user_query:
         flash("Sorry... username taken")
-        return redirect(flask.url_for("register"))
+        return redirect(url_for("register"))
     db.session.add(new_user)
     db.session.commit()
-    return redirect(flask.url_for("login"))
+    return redirect(url_for("login"))
 
 
 @bp.route("/logout")
