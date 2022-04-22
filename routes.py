@@ -1,6 +1,6 @@
 # pylint: disable=unused-import
 # pylint: disable=no-member
-"""These are the routes of the app, which help us navigate through it with different endpoints"""
+"""These are the routes of the app, which help us navigate through it with different endpoints3"""
 import os
 import flask
 from flask import (
@@ -156,8 +156,8 @@ def append_playlist():
     playlist = str(data["playlist"])
     if request.method == "POST":
         record = Playlists(
-            user_id=user_id, 
-            playlist_title=playlist_title, 
+            user_id=user_id,
+            playlist_title=playlist_title,
             playlist=playlist
         )
         db.session.add(record)
@@ -167,7 +167,7 @@ def append_playlist():
     for each in saved:
         saved_playlists.append(
             {
-                "playlistTitle": each.playlist_title, 
+                "playlistTitle": each.playlist_title,
                 "playlist": each.playlist,
             }
         )
@@ -185,11 +185,11 @@ def get_playlist():
     for each in playlists:
         saved_playlists.append(
             {
-                "playlistTitle": each.playlist_title, 
-                "playlist": each.playlist,            
+                "playlistTitle": each.playlist_title,
+                "playlist": each.playlist,
             }
         )
-        
+
     return jsonify({"savedPlaylists": saved_playlists})
 
 
