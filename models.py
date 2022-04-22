@@ -44,8 +44,10 @@ class Reviews(db.Model):
         """Returns the comment entered"""
         return self.review
 
+
 class Playlists(db.Model):
     """This is the database table where the saved playlists are stored"""
+
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     playlist_title = db.Column(db.String(150), nullable=False)
@@ -58,5 +60,6 @@ class Playlists(db.Model):
     def playlists(self):
         """Returns the saved playlist"""
         return self.playlist
+
 
 db.create_all()

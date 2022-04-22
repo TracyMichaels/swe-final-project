@@ -152,9 +152,7 @@ def append_playlist():
     playlist = str(data["playlist"])
     if request.method == "POST":
         record = Playlists(
-            user_id=user_id, 
-            playlist_title=playlist_title, 
-            playlist=playlist
+            user_id=user_id, playlist_title=playlist_title, playlist=playlist
         )
         db.session.add(record)
     db.session.commit()
@@ -163,7 +161,7 @@ def append_playlist():
     for each in saved:
         saved_playlists.append(
             {
-                "playlistTitle": each.playlist_title, 
+                "playlistTitle": each.playlist_title,
                 "playlist": each.playlist,
             }
         )
@@ -181,11 +179,11 @@ def get_playlist():
     for each in playlists:
         saved_playlists.append(
             {
-                "playlistTitle": each.playlist_title, 
-                "playlist": each.playlist,            
+                "playlistTitle": each.playlist_title,
+                "playlist": each.playlist,
             }
         )
-        
+
     return jsonify({"savedPlaylists": saved_playlists})
 
 
