@@ -20,14 +20,13 @@ from flask_login import (
     current_user,
     logout_user,
 )
-from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, app
 from models import User, Reviews, Playlists
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-bp = flask.Blueprint(
+bp = Blueprint(
     "bp",
     __name__,
     template_folder="./static/react",
