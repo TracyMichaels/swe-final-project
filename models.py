@@ -50,11 +50,11 @@ class Playlists(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     playlist_title = db.Column(db.String(150), nullable=False)
     playlist = db.Column(db.String(), nullable=False)
-    
+
     def __repr__(self):
         """Represents the playlist saved by the user"""
         return f"<{self.user_id}:{self.playlist_title}>"
-    
+
     def playlists(self):
         """Returns the saved playlist"""
         return self.playlist
