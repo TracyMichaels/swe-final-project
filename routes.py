@@ -1,3 +1,4 @@
+# pylint: disable=trailing-whitespace
 # pylint: disable=unused-import
 # pylint: disable=no-member
 """These are the routes of the app, which help us navigate through it with different endpoints"""
