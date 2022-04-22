@@ -61,5 +61,4 @@ class Playlists(db.Model):
         """Returns the saved playlist"""
         return self.playlist
 
-
 db.create_all()
