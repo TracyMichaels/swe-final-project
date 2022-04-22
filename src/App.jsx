@@ -203,7 +203,6 @@ function App() {
   return (
     <div>
       <div>
-
         <div className="nav">
           {userLoggedIn ? (
             <a className="remove-highlighting" href="/logout"> LOGOUT</a>
@@ -289,14 +288,25 @@ function App() {
             ))}
         </div>
       </div>
-      <div style={{ position: 'absolute', right: '10px' }}>
+      <div style={{
+        position: 'fixed',
+        right: '5%',
+        top: '25%',
+      }}
+      >
         {userLoggedIn && savedPlaylists.length > 0 && (
           <div>
             <h3>Your Saved Playlists:</h3>
             <ul>
               {savedPlaylists.map((playlist) => (
-                <li style={{ 'list-style-type': 'none' }}>
+                <li style={{
+                  'list-style-type': 'none',
+                  'text-align': 'right',
+                  'line-height': '1.6',
+                }}
+                >
                   <button
+                    className="remove-highlighting"
                     type="button"
                     onClick={() => setVideoIds(JSON.parse(playlist.playlist))}
                   >
